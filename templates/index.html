@@ -34,8 +34,11 @@
             })
             const texto = await resposta.text()
             alert(texto)
-        })
+            carregarClientes()
 
+            document.getElementById("nome").value = ""         
+            document.getElementById("telefone").value = ""
+        })
         async function carregarClientes() {
 
         const resposta = await fetch("/clientes")
