@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Barbershop Manager</title>
+</head>
+<body>
+
+    <h1>Cadastro Cliente</h1>
+    <form id="clienteForm">
+        <input type="text" id="nome" placeholder="Nome">
+        <br><br>
+        <input type="text" id="telefone" placeholder="Telefone">
+        <br><br>
+        <button type="submit">Salvar Cliente</button>
+        
+    </form>
+    <h2>Clientes</h2>
+    <ul id="lista-clientes"></ul>
+    <script>
+        document.getElementById("clienteForm").addEventListener("submit", async function (e) {
+            e.preventDefault()
+            const cliente = {
+                nome: document.getElementById("nome").value,
+                telefone: document.getElementById("telefone").value
+
+            }
+            const resposta = await fetch("http://localhost:8080/clientes", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(cliente)
+            })
+            const texto = await resposta.text()
+            alert(texto)
+        })
+
+        async function carregarClientes() {
+
+        const resposta = await fetch("/clientes")
+
+        const clientes = await resposta.json()
+
+        const lista = document.getElementById("lista-clientes")
+
+        lista.innerHTML = ""
+
+        clientes.forEach(cliente => {
+
+            lista.innerHTML += `
+                <li>
+                    ${cliente.nome} - ${cliente.telefone}
+                </li>
+            `
+
+        })
+
+    }    
+    carregarClientes()
+    </script>
+</body>
+</html>
