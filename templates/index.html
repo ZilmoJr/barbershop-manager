@@ -54,13 +54,23 @@
             lista.innerHTML += `
                 <li>
                     ${cliente.nome} - ${cliente.telefone}
+                    <button onclick="deletarCliente(${cliente.id})">
+                        Excluir
+                    </button>
                 </li>
             `
-
         })
 
     }    
     carregarClientes()
+    async function deletarCliente(id) {
+        const resposta = await fetch (`/clientes?id=${id}`,{
+            method: "DELETE"
+        })
+        const texto = await resposta.text()
+        alert(texto)
+        carregarClientes()        
+    }
     </script>
 </body>
 </html>
