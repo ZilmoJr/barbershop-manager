@@ -63,7 +63,7 @@ func ListarClientes(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := conn.Query(
 		context.Background(),
-		"SELECT id, nome, telefone FROM clientes",
+		"SELECT id, nome, telefone FROM clientes ORDER BY id ASC",
 	)
 
 	if err != nil {
@@ -89,8 +89,8 @@ func ListarClientes(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-
 	json.NewEncoder(w).Encode(clientes)
+
 }
 
 func AtualizarCliente(w http.ResponseWriter, r *http.Request) {
@@ -110,9 +110,9 @@ func AtualizarCliente(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer conn.Close(context.Background())
-	fmt.Println(cliente.ID)
-	fmt.Println(cliente.Nome)
-	fmt.Println(cliente.Telefone)
+	//fmt.Println(cliente.ID)
+	//fmt.Println(cliente.Nome)
+	//fmt.Println(cliente.Telefone)
 
 	_, err = conn.Exec(
 		context.Background(),
@@ -127,8 +127,8 @@ func AtualizarCliente(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("Cliente atualizado com sucesso")
-
-	json.NewEncoder(w).Encode(cliente)
+	w.Write([]byte("Cliente atualizado com sucesso"))
+	//json.NewEncoder(w).Encode(cliente)
 
 }
 
