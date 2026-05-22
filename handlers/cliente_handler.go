@@ -94,7 +94,7 @@ func ListarClientes(w http.ResponseWriter, r *http.Request) {
 }
 
 func AtualizarCliente(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+
 	var cliente models.Cliente
 	err := json.NewDecoder(r.Body).Decode(&cliente)
 
@@ -110,13 +110,16 @@ func AtualizarCliente(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer conn.Close(context.Background())
+	fmt.Println(cliente.ID)
+	fmt.Println(cliente.Nome)
+	fmt.Println(cliente.Telefone)
 
 	_, err = conn.Exec(
 		context.Background(),
 		"UPDATE clientes SET nome=$1, telefone=$2 WHERE id=$3",
 		cliente.Nome,
 		cliente.Telefone,
-		id,
+		cliente.ID,
 	)
 	if err != nil {
 		http.Error(w, "Erro ao atualizar clientes", http.StatusInternalServerError)
@@ -133,11 +136,11 @@ func DeletarCliente(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	conn, err := database.ConnectDB()
 	if err != nil {
-		http.Error(w,"Erro ao conectar banco",http.StatusInternalServerError)
+		http.Error(w, "Erro ao conectar banco", http.StatusInternalServerError)
 		return
 	}
 	defer conn.Close(context.Background())
-	
+
 	_, err = conn.Exec(
 		context.Background(),
 		"DELETE FROM clientes WHERE id=$1",

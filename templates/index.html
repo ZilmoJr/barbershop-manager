@@ -8,6 +8,7 @@
 
     <h1>Cadastro Cliente</h1>
     <form id="clienteForm">
+        <input type="hidden" id="clienteId">
         <input type="text" id="nome" placeholder="Nome">
         <br><br>
         <input type="text" id="telefone" placeholder="Telefone">
@@ -20,13 +21,15 @@
     <script>
         document.getElementById("clienteForm").addEventListener("submit", async function (e) {
             e.preventDefault()
+            const clienteId = document.getElementById("clienteId").value 
             const cliente = {
+                id: parseInt(clienteId),
                 nome: document.getElementById("nome").value,
                 telefone: document.getElementById("telefone").value
 
             }
             const resposta = await fetch("http://localhost:8080/clientes", {
-                method: "POST",
+                method: clienteId ? "PUT" : "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -54,6 +57,9 @@
             lista.innerHTML += `
                 <li>
                     ${cliente.nome} - ${cliente.telefone}
+                    <button onclick="editarCliente(${cliente.id}, '${cliente.nome}', '${cliente.telefone}')">
+                        Editar
+                    </button>
                     <button onclick="deletarCliente(${cliente.id})">
                         Excluir
                     </button>
@@ -71,6 +77,13 @@
         alert(texto)
         carregarClientes()        
     }
+
+    function editarCliente(id, nome, telefone) {
+        document.getElementById("clienteId").value = id
+        document.getElementById("nome").value = nome
+        document.getElementById("telefone").value = telefone
+    }
+    
     </script>
 </body>
 </html>
