@@ -3,51 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Barbershop Manager</title>
-    <style>
-
-    body {
-        font-family: Arial;
-        background-color: #f4f4f4;
-        padding: 20px;
-    }
-
-    h1, h2 {
-        color: #333;
-    }
-
-    input {
-        padding: 10px;
-        width: 250px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
-
-    button {
-        padding: 10px 15px;
-        border: none;
-        background-color: #007bff;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    li {
-        margin-bottom: 10px;
-    }
-
-</style>
+    <link rel="stylesheet" href="/static/style.css">
    
-       
 </head>
+
 <body>
 
     <h1>Cadastro Cliente</h1>
-    <form id="clienteForm">
+    <form id="clienteForm">        
         <input type="hidden" id="clienteId">
         <input type="text" id="nome" placeholder="Nome">
         <br><br>
@@ -58,72 +21,8 @@
     </form>
     <h2>Clientes</h2>
     <ul id="lista-clientes"></ul>
-    <script>
-        document.getElementById("clienteForm").addEventListener("submit", async function (e) {
-            e.preventDefault()
-            const clienteId = document.getElementById("clienteId").value 
-            const cliente = {
-                id: parseInt(clienteId),
-                nome: document.getElementById("nome").value,
-                telefone: document.getElementById("telefone").value
-
-            }
-            const resposta = await fetch("http://localhost:8080/clientes", {
-                method: clienteId ? "PUT" : "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(cliente)
-            })
-            const texto = await resposta.text()
-            alert(texto)
-            carregarClientes()
-
-            document.getElementById("nome").value = ""         
-            document.getElementById("telefone").value = ""
-        })
-        async function carregarClientes() {
-
-        const resposta = await fetch("/clientes")
-
-        const clientes = await resposta.json()
-
-        const lista = document.getElementById("lista-clientes")
-
-        lista.innerHTML = ""
-
-        clientes.forEach(cliente => {
-
-            lista.innerHTML += `
-                <li>
-                    ${cliente.nome} - ${cliente.telefone}
-                    <button onclick="editarCliente(${cliente.id}, '${cliente.nome}', '${cliente.telefone}')">
-                        Editar
-                    </button>
-                    <button onclick="deletarCliente(${cliente.id})">
-                        Excluir
-                    </button>
-                </li>
-            `
-        })
-
-    }    
-    carregarClientes()
-    async function deletarCliente(id) {
-        const resposta = await fetch (`/clientes?id=${id}`,{
-            method: "DELETE"
-        })
-        const texto = await resposta.text()
-        alert(texto)
-        carregarClientes()        
-    }
-
-    function editarCliente(id, nome, telefone) {
-        document.getElementById("clienteId").value = id
-        document.getElementById("nome").value = nome
-        document.getElementById("telefone").value = telefone
-    }
+    <script src="/static/app.js"></script>
     
-    </script>
 </body>
+
 </html>
