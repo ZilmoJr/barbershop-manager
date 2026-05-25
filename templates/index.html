@@ -16,12 +16,25 @@
         <br><br>
         <input type="text" id="telefone" placeholder="Telefone">
         <br><br>
-        <button type="submit">Salvar Cliente</button>
+        <button type="submit" id="botaoSalvar">Salvar Cliente</button>
         
     </form>
+    <p id="mensagem"></p>
     <h2>Clientes</h2>
-    <ul id="lista-clientes"></ul>
     <script src="/static/app.js"></script>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="lista-clientes">
+
+        </tbody>
+    </table>
     
 </body>
 
