@@ -20,8 +20,10 @@
         
     </form>
     <p id="mensagem"></p>
+
     <h2>Clientes</h2>
-    <script src="/static/app.js"></script>
+    
+    <input type="text" id="buscarCliente" placeholder="Buscar cliente">
     <table>
         <thead>
             <tr>
@@ -35,7 +37,25 @@
 
         </tbody>
     </table>
-    
+    <div id="modalEditar" class="modal">
+        <div class="modal-conteudo">
+            <h2>Editar Cliente</h2>
+            <input type="hidden" id="modalClienteId">
+            <input type="text" id="modalNome" placeholder="Nome">
+            <br><br>
+            <input type="text" id="modalTelefone" placeholder="Telefone">
+            <br><br>
+            <button onclick="salvarEdicao()">
+                Salvar Alterações
+            </button>
+            <button onclick="fecharModal()">
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+    <script src="/static/app.js"></script>
 </body>
 
 </html>

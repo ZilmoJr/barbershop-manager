@@ -54,39 +54,45 @@
 
         document.getElementById("botaoSalvar").innerText = "Salvar Cliente"
     })
+        let todosClientes = []
         async function carregarClientes() {
 
         const resposta = await fetch("/clientes")
 
         const clientes = await resposta.json()
+        todosClientes = clientes
 
         const lista = document.getElementById("lista-clientes")
 
         lista.innerHTML = ""
-
-        clientes.forEach(cliente => {
-
-            lista.innerHTML += `
-                <tr>
-                    <td>${cliente.id}</td>
-                    <td>${cliente.nome}</td>
-                    <td>${cliente.telefone}</td>
-
-                    <td>
-                        <button onclick="editarCliente(${cliente.id}, '${cliente.nome}', '${cliente.telefone}')">
-                            Editar
-                        </button>
-                        <button onclick="deletarCliente(${cliente.id})">
-                            Excluir
-                        </button>
-                    </td>
-                </tr>
-               
-            `
-        })
-
+        renderizarClientes(clientes)
+        
     }    
+    
     carregarClientes()
+    
+    function renderizarClientes(clientes) {
+        const lista = document.getElementById("lista-clientes")
+        lista.innerHTML = ""
+        clientes.forEach(cliente => {
+            lista.innerHTML += `
+            <tr>
+                <td>${cliente.id}</td>
+                <td>${cliente.nome}</td>
+                <td>${cliente.telefone}</td>
+                <td>
+                    <button onclick="editarCliente(${cliente.id}, '${cliente.nome}', '${cliente.telefone}')">
+                        Editar
+                    </button>
+
+                    <button onclick="deletarCliente(${cliente.id})">
+                        Excluir
+                    </button>
+                </td>
+            </tr>    
+        `
+        })
+    }
 
     async function deletarCliente(id) {
         const confirmado = confirm("Tem certeza que deseja excluir?")
@@ -98,14 +104,16 @@
         })
         const texto = await resposta.text()
         mostrarMensagem(texto, "green")
-        carregarClientes()        
+        document.getElementById("buscarCliente").value = ""
+        carregarClientes()
     }
 
     function editarCliente(id, nome, telefone) {
-        document.getElementById("clienteId").value = id
-        document.getElementById("nome").value = nome
-        document.getElementById("telefone").value = telefone
-        document.getElementById("botaoSalvar").innerText = "Atualizar Cliente"
+        document.getElementById("modalClienteId").value = id
+        document.getElementById("modalNome").value = nome
+        document.getElementById("modalTelefone").value = telefone
+        document.getElementById("modalEditar").style.display = "flex"
+        //document.getElementById("buscarCliente").value = ""       
     }
     
     function mostrarMensagem(texto, cor) {
@@ -116,4 +124,15 @@
         }, 3000)
 
     }
+    document.getElementById("buscarCliente").addEventListener("input", function () {
+        console.log("digitando")
+        const textoBusca = this.value.toLowerCase()
+
+        const clientesFiltrados = todosClientes.filter(cliente =>
+            cliente.nome.toLowerCase().includes(textoBusca)
+        )
+
+        renderizarClientes(clientesFiltrados)
+
+    })
    
