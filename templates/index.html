@@ -24,6 +24,7 @@
     <h2>Clientes</h2>
     
     <input type="text" id="buscarCliente" placeholder="Buscar cliente">
+    <p id="loadingClientes"></p>
     <table>
         <thead>
             <tr>
@@ -39,7 +40,13 @@
     </table>
     <div id="modalEditar" class="modal">
         <div class="modal-conteudo">
-            <h2>Editar Cliente</h2>
+            <div class="modal-topo">
+                <h2>Editar Cliente</h2>
+                <span class="fechar-modal" onclick="fecharModal()">
+                    X
+                </span>
+            </div>
+            
             <input type="hidden" id="modalClienteId">
             <input type="text" id="modalNome" placeholder="Nome">
             <br><br>

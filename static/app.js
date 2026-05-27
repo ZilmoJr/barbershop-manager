@@ -56,16 +56,18 @@
     })
         let todosClientes = []
         async function carregarClientes() {
+            document.getElementById("loadingClientes").innerText = "Carregando Clientes..."
 
-        const resposta = await fetch("/clientes")
+            const resposta = await fetch("/clientes")
 
-        const clientes = await resposta.json()
-        todosClientes = clientes
+            const clientes = await resposta.json()
+            todosClientes = clientes
 
-        const lista = document.getElementById("lista-clientes")
+            const lista = document.getElementById("lista-clientes")
 
-        lista.innerHTML = ""
-        renderizarClientes(clientes)
+            lista.innerHTML = ""
+            renderizarClientes(clientes)
+            document.getElementById("loadingClientes").innerText = ""
         
     }    
     
@@ -135,4 +137,35 @@
         renderizarClientes(clientesFiltrados)
 
     })
+    function fecharModal(){
+        document.getElementById("modalEditar").style.display = "none"
+        document.getElementById("modalClienteId").value = ""
+        document.getElementById("modalNome").value = ""
+        document.getElementById("modalTelefone").value = ""
+    }
+    async function salvarEdicao() {
+        const cliente = {
+            id: parseInt(document.getElementById("modalClienteId").value),
+            nome: document.getElementById("modalNome").value,
+            telefone: document.getElementById("modalTelefone").value
+        }
+        const resposta = await fetch("/clientes",{
+            method: "PUT",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify(cliente)
+        })
+        const texto = await resposta.text()
+        mostrarMensagem(texto, "green")
+        fecharModal()
+        carregarClientes()
+    }
+    //fechar modal
+    window.onclick = function(event){
+        const modal = document.getElementById("modalEditar")
+        if(event.target == modal){
+            fecharModal()
+        }
+    }
    

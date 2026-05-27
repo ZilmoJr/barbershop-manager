@@ -65,4 +65,65 @@ th {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
+    animation: aparecerModal 0.3s ease;
+}
+.modal-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.fechar-modal {
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: bold;
+}
+.fechar-modal:hover {
+    color: red;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;    
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+th {
+    background-color: #007bff;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #ddd;
+}
+@media (max-width: 668px) {
+    body {
+        padding: 10px;
+    }
+    table {
+        font-size: 14px;
+    }
+    input {
+        width: 100%;
+    }
+    button {
+        width: 100%;
+        margin-top: 5px;
+    }
+       
+}
+@keyframes aparecerModal {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+    
 }
