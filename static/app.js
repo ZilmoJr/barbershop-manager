@@ -38,6 +38,7 @@
 
         } catch(error){
             mostrarMensagem("Erro ao processar requisição","red")
+            return
         }
         
         const texto = await resposta.text()
@@ -47,13 +48,9 @@
         document.getElementById("nome").disabled = false
         document.getElementById("telefone").disabled = false
         botao.innerText = "Salvar Cliente"
-
-        document.getElementById("nome").value = ""         
-        document.getElementById("telefone").value = ""
-        document.getElementById("clienteId").value = ""
-
-        document.getElementById("botaoSalvar").innerText = "Salvar Cliente"
+        limparFormulario()
     })
+
         let todosClientes = []
         async function carregarClientes() {
             document.getElementById("loadingClientes").innerText = "Carregando Clientes..."
@@ -76,6 +73,18 @@
     function renderizarClientes(clientes) {
         const lista = document.getElementById("lista-clientes")
         lista.innerHTML = ""
+        document.getElementById("totalClientes").innerText = `Total Clientes: ${todosClientes.length}`
+        document.getElementById("clientesEncontrados").innerText = `Clientes encontrados: ${clientes.length}`
+        if (clientes.length === 0) {
+            lista.innerHTML = ` 
+                <tr>
+                    <td colspan="4">
+                        Nenhum cliente encontrado
+                    </td>
+                </tr>
+            `
+            return
+        }
         clientes.forEach(cliente => {
             lista.innerHTML += `
             <tr>
@@ -115,7 +124,8 @@
         document.getElementById("modalNome").value = nome
         document.getElementById("modalTelefone").value = telefone
         document.getElementById("modalEditar").style.display = "flex"
-        //document.getElementById("buscarCliente").value = ""       
+        document.getElementById("botaoCancelar").style.display = "inline-block"
+        
     }
     
     function mostrarMensagem(texto, cor) {
@@ -127,7 +137,6 @@
 
     }
     document.getElementById("buscarCliente").addEventListener("input", function () {
-        console.log("digitando")
         const textoBusca = this.value.toLowerCase()
 
         const clientesFiltrados = todosClientes.filter(cliente =>
@@ -139,9 +148,7 @@
     })
     function fecharModal(){
         document.getElementById("modalEditar").style.display = "none"
-        document.getElementById("modalClienteId").value = ""
-        document.getElementById("modalNome").value = ""
-        document.getElementById("modalTelefone").value = ""
+        limparModal()
     }
     async function salvarEdicao() {
         const cliente = {
@@ -161,11 +168,30 @@
         fecharModal()
         carregarClientes()
     }
-    //fechar modal
+
+    function cancelarEdicao() {
+        limparFormulario()
+        document.getElementById("botaoCancelar").style.display = "none"
+    }
+    
     window.onclick = function(event){
         const modal = document.getElementById("modalEditar")
         if(event.target == modal){
             fecharModal()
         }
     }
+    function limparFormulario() {
+        document.getElementById("nome").value = ""
+        document.getElementById("telefone").value = ""
+        document.getElementById("clienteId").value = ""
+        document.getElementById("botaoSalvar").innerText = "Salvar Cliente"
+        document.getElementById("botaoCancelar").style.display = "none"
+    }
+
+    function limparModal() {
+        document.getElementById("modalClienteId").value = ""
+        document.getElementById("modalNome").value = ""
+        document.getElementById("modalTelefone").value = ""
+    }
+
    

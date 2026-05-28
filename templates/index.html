@@ -22,7 +22,9 @@
     <p id="mensagem"></p>
 
     <h2>Clientes</h2>
-    
+    <h3 id="totalClientes"></h3>
+    <p id="clientesEncontrados"></p>
+
     <input type="text" id="buscarCliente" placeholder="Buscar cliente">
     <p id="loadingClientes"></p>
     <table>
@@ -54,6 +56,9 @@
             <br><br>
             <button onclick="salvarEdicao()">
                 Salvar Alterações
+            </button>
+            <button type="button" id="botaoCancelar" onclick="fecharModal()">
+                Cancelar
             </button>
             <button onclick="fecharModal()">
                 Fechar
