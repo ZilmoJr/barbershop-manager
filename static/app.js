@@ -11,7 +11,26 @@
         const clienteId = document.getElementById("clienteId").value 
         const nome = document.getElementById("nome").value
         const telefone = document.getElementById("telefone").value
-
+        document.getElementById("nome").classList.remove("input-erro")
+        document.getElementById("telefone").classList.remove("input-erro")
+        if(nome.length < 3){
+            mostrarMensagem("Nome deve ter no minimo 3 letras", "red")
+            document.getElementById("nome").classList.add("input-erro")
+            botao.disabled = false
+            document.getElementById("nome").disabled = false
+            document.getElementById("telefone").disabled = false
+            botao.innerText = "Salvar Cliente"
+            return
+        }
+        if(telefone.length < 10){
+            mostrarMensagem("Telefone inválido", "red")
+            document.getElementById("telefone").classList.add("input-erro")
+            botao.disabled = false
+            document.getElementById("nome").disabled = false
+            document.getElementById("telefone").disabled = false
+            botao.innerText = "Salvar Cliente"
+            return
+        }
         if(nome === "" || telefone === "") {
             mostrarMensagem("Preencha todos os campos", "red")
             botao.disabled = false
@@ -44,12 +63,14 @@
         const texto = await resposta.text()
         mostrarMensagem(texto, "green")
         carregarClientes()
+        
         botao.disabled = false
         document.getElementById("nome").disabled = false
         document.getElementById("telefone").disabled = false
         botao.innerText = "Salvar Cliente"
+        document.getElementById("nome").classList.remove("input-erro")
         limparFormulario()
-    })
+    })//Fim submit
 
         let todosClientes = []
         async function carregarClientes() {
@@ -59,6 +80,7 @@
 
             const clientes = await resposta.json()
             todosClientes = clientes
+            document.getElementById("totalClientes").innerText = clientes.length
 
             const lista = document.getElementById("lista-clientes")
 
@@ -66,15 +88,21 @@
             renderizarClientes(clientes)
             document.getElementById("loadingClientes").innerText = ""
         
-    }    
-    
+    }
+
     carregarClientes()
+    document.getElementById("nome").addEventListener("input", function(){
+        this.classList.remove("input-erro")
+    })
+    document.getElementById("telefone").addEventListener("input", function(){
+        this.classList.remove("input-erro")
+    })
     
     function renderizarClientes(clientes) {
         const lista = document.getElementById("lista-clientes")
         lista.innerHTML = ""
-        document.getElementById("totalClientes").innerText = `Total Clientes: ${todosClientes.length}`
-        document.getElementById("clientesEncontrados").innerText = `Clientes encontrados: ${clientes.length}`
+        document.getElementById("totalClientes").innerText = todosClientes.length
+        document.getElementById("clientesEncontrados").innerText = clientes.length
         if (clientes.length === 0) {
             lista.innerHTML = ` 
                 <tr>
@@ -85,6 +113,7 @@
             `
             return
         }
+        document.getElementById("clientesEncontrados").innerText = clientes.length
         clientes.forEach(cliente => {
             lista.innerHTML += `
             <tr>
@@ -151,6 +180,21 @@
         limparModal()
     }
     async function salvarEdicao() {
+        const botao = document.getElementById("botaoSalvarEdicao")
+        const nome = document.getElementById("modalNome").value
+        const telefone = document.getElementById("modalTelefone").value
+        if(nome.length < 3){
+            mostrarMensagemModal("Nome deve ter no minimo 3 letras.","red")
+            document.getElementById("modalNome").classList.add("input-erro")
+            return
+        }
+        if(telefone.length < 10){
+            mostrarMensagemModal("Telefone invalido","red")
+            document.getElementById("modalTelefone").classList.add("input-erro")
+            return
+        }    
+        botao.disabled = true
+        botao.innerText = "Salvando..."
         const cliente = {
             id: parseInt(document.getElementById("modalClienteId").value),
             nome: document.getElementById("modalNome").value,
@@ -165,6 +209,9 @@
         })
         const texto = await resposta.text()
         mostrarMensagem(texto, "green")
+        botao.disabled = false
+        botao.innerText = "Salvar Alterações"
+        
         fecharModal()
         carregarClientes()
     }
@@ -192,6 +239,17 @@
         document.getElementById("modalClienteId").value = ""
         document.getElementById("modalNome").value = ""
         document.getElementById("modalTelefone").value = ""
+        document.getElementById("modalNome").classList.remove("input-erro")
+        document.getElementById("modalTelefone").classList.remove("input-erro")
+    }
+    function mostrarMensagemModal(texto,cor){
+        document.getElementById("mensagemModal").innerText = texto
+        document.getElementById("mensagemModal").style.color = cor
+        setTimeout(() => {
+            document.getElementById("mensagemModal").innerText = ""
+
+
+        },3000)
     }
 
    

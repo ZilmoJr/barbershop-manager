@@ -20,10 +20,18 @@
         
     </form>
     <p id="mensagem"></p>
-
     <h2>Clientes</h2>
-    <h3 id="totalClientes"></h3>
-    <p id="clientesEncontrados"></p>
+    
+    <div class="dashboard">
+        <div class="card-dashboard">
+            <h3>Total Clientes</h3>
+            <p id="totalClientes">0</p>
+        </div>
+        <div class="card-dashboard">
+            <h3>Clientes Encontrados</h3>
+            <p id="clientesEncontrados">0</p>
+        </div>
+    </div>
 
     <input type="text" id="buscarCliente" placeholder="Buscar cliente">
     <p id="loadingClientes"></p>
@@ -54,7 +62,8 @@
             <br><br>
             <input type="text" id="modalTelefone" placeholder="Telefone">
             <br><br>
-            <button onclick="salvarEdicao()">
+            <p id="mensagemModal"></p>
+            <button id="botaoSalvarEdicao" onclick="salvarEdicao()">
                 Salvar Alterações
             </button>
             <button type="button" id="botaoCancelar" onclick="fecharModal()">
