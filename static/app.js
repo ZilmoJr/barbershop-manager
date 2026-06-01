@@ -10,7 +10,7 @@
         
         const clienteId = document.getElementById("clienteId").value 
         const nome = document.getElementById("nome").value
-        const telefone = document.getElementById("telefone").value
+        const telefone = document.getElementById("telefone").value.replace(/\D/g,"")
         document.getElementById("nome").classList.remove("input-erro")
         document.getElementById("telefone").classList.remove("input-erro")
         if(nome.length < 3){
@@ -115,11 +115,15 @@
         }
         document.getElementById("clientesEncontrados").innerText = clientes.length
         clientes.forEach(cliente => {
+            const data = new Date(cliente.dataCadastro)
+            const dataFormatada = data.toLocaleDateString("pt-BR") + 
+            " às " + data.toLocaleTimeString("pt-BR")
             lista.innerHTML += `
             <tr>
                 <td>${cliente.id}</td>
-                <td>${cliente.nome}</td>
-                <td>${cliente.telefone}</td>
+                <td>${cliente.nome}</td>                
+                <td>${formatarTelefone(cliente.telefone)}</td>
+                <td>${dataFormatada}</td>
                 <td>
                     <button onclick="editarCliente(${cliente.id}, '${cliente.nome}', '${cliente.telefone}')">
                         Editar
@@ -129,6 +133,7 @@
                         Excluir
                     </button>
                 </td>
+                
             </tr>    
         `
         })
@@ -182,7 +187,7 @@
     async function salvarEdicao() {
         const botao = document.getElementById("botaoSalvarEdicao")
         const nome = document.getElementById("modalNome").value
-        const telefone = document.getElementById("modalTelefone").value
+        const telefone = document.getElementById("modalTelefone").value.replace(/\D/g,"")
         if(nome.length < 3){
             mostrarMensagemModal("Nome deve ter no minimo 3 letras.","red")
             document.getElementById("modalNome").classList.add("input-erro")
@@ -251,5 +256,50 @@
 
         },3000)
     }
+    document.getElementById("telefone").addEventListener("input", function () {
+        let valor = this.value.replace(/\D/g,"")
+        if (valor.length > 11) {
+            valor = valor.slice(0,11)
+        }
+        if (valor.length > 6) {
+            valor = valor.replace(
+                /^(\d{2})(\d{5})(\d+)/,
+                "($1) $2-$3"
+            )
+        } else if (valor.length > 2) {
+            valor = valor.replace(
+                 /^(\d{2})(\d+)/,
+                "($1) $2"
+            )
+        }
+        this.value = valor
+    })
 
-   
+document.getElementById("modalTelefone").addEventListener("input", function () {
+        let valor = this.value.replace(/\D/g,"")
+        if (valor.length > 11) {
+            valor = valor.slice(0,11)
+        }
+        if (valor.length > 6) {
+            valor = valor.replace(
+                /^(\d{2})(\d{5})(\d+)/,
+                "($1) $2-$3"
+            )
+        } else if (valor.length > 2) {
+            valor = valor.replace(
+                 /^(\d{2})(\d+)/,
+                "($1) $2"
+            )
+        }
+        this.value = valor
+    })
+function formatarTelefone(telefone){
+    telefone = telefone.replace(/\D/g, "")
+    if (telefone.length === 11){ 
+        return telefone.replace(
+             /^(\d{2})(\d{5})(\d{4})$/,
+            "($1) $2-$3"
+        )
+    }
+    return telefone    
+}

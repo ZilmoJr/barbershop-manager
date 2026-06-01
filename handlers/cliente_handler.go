@@ -63,7 +63,7 @@ func ListarClientes(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := conn.Query(
 		context.Background(),
-		"SELECT id, nome, telefone FROM clientes ORDER BY id ASC",
+		"SELECT id, nome, telefone, data_cadastro FROM clientes ORDER BY id ASC",
 	)
 
 	if err != nil {
@@ -83,6 +83,7 @@ func ListarClientes(w http.ResponseWriter, r *http.Request) {
 			&cliente.ID,
 			&cliente.Nome,
 			&cliente.Telefone,
+			&cliente.DataCadastro,
 		)
 
 		clientes = append(clientes, cliente)
