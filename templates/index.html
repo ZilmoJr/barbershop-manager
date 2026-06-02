@@ -35,11 +35,17 @@
 
     <input type="text" id="buscarCliente" placeholder="Buscar cliente">
     <p id="loadingClientes"></p>
+    
+    
     <table>
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nome</th>
+                <th id="colunaNome"
+                    onclick="ordenarClientes()"
+                    style="cursor:pointer">
+                    Nome ▲
+                </th>
                 <th>Telefone</th>   
                 <th>Data Cadastro</th>             
                 <th>Ações</th>                

@@ -302,4 +302,20 @@ function formatarTelefone(telefone){
         )
     }
     return telefone    
+} 
+let ordemCrescente = true 
+function ordenarClientes() {
+    if (ordemCrescente) {
+        todosClientes.sort((a,b) =>
+            a.nome.localeCompare(b.nome)
+        )
+        document.getElementById("colunaNome").innerText = "Nome ▲"
+    } else {
+        todosClientes.sort((a,b) =>
+        b.nome.localeCompare(a.nome)
+        )
+    document.getElementById("colunaNome").innerText = "Nome ▼"
+    }
+    ordemCrescente = !ordemCrescente
+    renderizarClientes(todosClientes)
 }
