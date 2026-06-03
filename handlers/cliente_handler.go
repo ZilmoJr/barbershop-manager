@@ -45,9 +45,7 @@ func CriarCliente(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Cliente salvo com sucesso")
 	w.Write([]byte("Cliente salvo com sucesso"))
 
-	//w.Header().Set("Content-Type", "application/json")
-
-	//json.NewEncoder(w).Encode(cliente)
+	
 }
 
 func ListarClientes(w http.ResponseWriter, r *http.Request) {

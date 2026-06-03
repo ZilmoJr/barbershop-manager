@@ -203,7 +203,7 @@
         const cliente = {
             id: parseInt(document.getElementById("modalClienteId").value),
             nome: document.getElementById("modalNome").value,
-            telefone: document.getElementById("modalTelefone").value
+            telefone: telefone
         }
         const resposta = await fetch("/clientes",{
             method: "PUT",
@@ -318,4 +318,25 @@ function ordenarClientes() {
     }
     ordemCrescente = !ordemCrescente
     renderizarClientes(todosClientes)
+}
+let ordemDataCrescente = true
+function ordenarPorData() {
+    if(ordemDataCrescente) {
+        todosClientes.sort((a,b)=>
+            new Date(a.dataCadastro) -
+            new Date(b.dataCadastro)            
+        )
+        document.getElementById("colunaData").innerText = 
+        "Data Cadastro ▲"
+    } else {
+        todosClientes.sort((a,b)=>
+            new Date(b.dataCadastro) - 
+            new Date(a.dataCadastro)
+        )
+        document.getElementById("colunaData").innerText = 
+        "Data Cadastro ▼" 
+    }
+    ordemDataCrescente = !ordemDataCrescente
+    renderizarClientes(todosClientes)
+
 }

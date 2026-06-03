@@ -39,6 +39,31 @@ func main() {
 
 		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
 	})
+
+	http.HandleFunc("/servicos", func(w http.ResponseWriter, r *http.Request) {
+
+		if r.Method == "GET" {
+			handlers.ListarServicos(w, r)
+			return
+		}
+
+		if r.Method == "POST" {
+			handlers.CriarServico(w, r)
+			return
+		}
+
+		if r.Method == "PUT" {
+			handlers.AtualizarServico(w, r)
+			return
+		}
+
+		if r.Method == "DELETE" {
+			handlers.DeletarServico(w, r)
+			return
+		}
+
+		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
+	})
 	http.HandleFunc("/", indexHandler)
 	fmt.Println("Servidor rodandona porta 8080")
 	fs := http.FileServer(http.Dir("./static"))
