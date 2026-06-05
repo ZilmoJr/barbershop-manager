@@ -64,6 +64,8 @@ func main() {
 
 		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
 	})
+	http.HandleFunc("/servicos-page", servicosHandler)
+
 	http.HandleFunc("/", indexHandler)
 	fmt.Println("Servidor rodandona porta 8080")
 	fs := http.FileServer(http.Dir("./static"))
@@ -74,4 +76,8 @@ func main() {
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "templates/index.html")
+}
+
+func servicosHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "templates/servicos.html")
 }

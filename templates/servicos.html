@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Barbershop Manager</title>
+    <link rel="stylesheet" href="/static/style.css">
+   
+</head>
+
+<body>
+
+    <h1>Cadastro Serviços</h1>
+    <form id="servicoForm">        
+        <input type="hidden" id="servicoId">
+        <input type="text" id="descricao" placeholder="Descricao">
+        <br><br>
+        <input type="number" id="valor" placeholder="Valor" step="0.01">
+        <br><br>
+        <button type="submit" id="botaoSalvar">Salvar Serviço</button>
+        
+    </form>
+    <p id="mensagem"></p>
+    <h2>Serviços</h2>
+    
+    <div class="dashboard">
+        <div class="card-dashboard">
+            <h3>Total Serviços</h3>
+            <p id="totalServicos">0</p>
+        </div>
+        <div class="card-dashboard">
+            <h3>Serviços Encontrados</h3>
+            <p id="servicosEncontrados">0</p>
+        </div>
+    </div>
+
+    <input type="text" id="buscarServico" placeholder="Buscar serviço">
+    <p id="loadingServico"></p>
+    
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th id="colunaDescricao"
+                    onclick="ordenarServicos()"
+                    style="cursor:pointer">
+                    Descrição ▲
+                </th>
+                <th>Valor</th>   
+                <th id="colunaData"
+                    onclick="ordenarPorData()"
+                    style="cursor:pointer">
+                    Data Cadastro ▼
+                </th>             
+                <th>Ações</th>                
+            </tr>
+        </thead>
+        <tbody id="lista-servicos">
+
+        </tbody>
+    </table>
+    <div id="modalEditar" class="modal">
+        <div class="modal-conteudo">
+            <div class="modal-topo">
+                <h2>Editar Serviços</h2>
+                <span class="fechar-modal" onclick="fecharModal()">
+                    X
+                </span>
+            </div>
+            
+            <input type="hidden" id="modalServicoId">
+            <input type="text" id="modalDescricao" placeholder="Descricao">
+            <br><br>
+            <input type="text" id="modalValor" placeholder="Valor" step="0.01>
+            <br><br>
+            <p id="mensagemModal"></p>
+            <button id="botaoSalvarEdicao" onclick="salvarEdicao()">
+                Salvar Alterações
+            </button>
+            <button type="button" id="botaoCancelar" onclick="fecharModal()">
+                Cancelar
+            </button>
+            <button onclick="fecharModal()">
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+    <script src="/static/servicos.js"></script>
+</body>
+
+</html>
