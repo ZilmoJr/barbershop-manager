@@ -11,6 +11,7 @@ async function carregarServicos() {
         alert("Erro ao conectar com servidor")
         return
     }
+    document.getElementById("loadingServico").innerText = ""
         
     const servicos  = await resposta.json()
     todosServicos = servicos
@@ -178,4 +179,40 @@ function renderizarServicos(servicos) {
     `
     })
 }
+
+function editarServico(id, descricao, valor){
+    document.getElementById("modalServicoId").value = id
+    document.getElementById("modalDescricao").value = descricao
+    document.getElementById("modalValor").value = valor
+    document.getElementById("modalEditar").style.display = "flex"
+
+}
+function fecharModal(){
+    document.getElementById("modalEditar").style.display = "none"
+}
+
+async function salvarEdicao() {
+    const id = document.getElementById("modalServicoId").value
+    const descricao = 
+        document.getElementById("modalDescricao").value
+    const valor = 
+        parseFloat(document.getElementById("modalValor").value)
+    const servico = {
+        id: parseInt(id),
+        descricao: descricao,
+        valor: valor
+    }
+    const resposta = await fetch("/servicos",{
+        method: "PUT",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(servico)
+    })
+    const texto = await resposta.text()
+    alert(texto)
+    fecharModal()
+    carregarServicos()
+}
+
 
