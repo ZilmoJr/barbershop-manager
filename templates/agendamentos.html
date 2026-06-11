@@ -1,0 +1,51 @@
+<h1>Agendamentos</h1>
+
+<form id="agendamentoForm">
+
+    <input type="number"
+           id="clienteId"
+           placeholder="ID Cliente">
+
+    <br><br>
+
+    <input type="number"
+           id="barbeiroId"
+           placeholder="ID Barbeiro">
+
+    <br><br>
+
+    <input type="datetime-local"
+           id="dataHora">
+
+    <br><br>
+
+    <input type="text"
+           id="status"
+           placeholder="Status">
+
+    <br><br>
+
+    <button type="submit">
+        Salvar Agendamento
+    </button>
+
+</form>
+
+<hr>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Barbeiro</th>
+            <th>Data</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody id="lista-agendamentos">
+
+    </tbody>
+</table>
+<script src="/static/agendamentos.js"></script>

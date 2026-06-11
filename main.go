@@ -64,13 +64,35 @@ func main() {
 
 		http.Error(w, "Método não permitido", http.StatusMethodNotAllowed)
 	})
-	http.HandleFunc("/servicos-page", servicosHandler)
 
+	http.HandleFunc("/agendamentos", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "GET" {
+			handlers.ListarAgendamentos(w, r)
+			return
+		}
+
+		if r.Method == "POST" {
+			handlers.CriarAgendamento(w, r)
+			return
+		}
+
+		if r.Method == "PUT" {
+			handlers.AtualizarAgendamento(w, r)
+			return
+		}
+
+		if r.Method == "DELETE" {
+			handlers.DeletarAgendamento(w, r)
+			return
+		}
+	})
+
+	http.HandleFunc("/agendamentos-page", agendamentosHandler)
+	http.HandleFunc("/servicos-page", servicosHandler)
 	http.HandleFunc("/", indexHandler)
 	fmt.Println("Servidor rodandona porta 8080")
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -80,4 +102,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 func servicosHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "templates/servicos.html")
+}
+
+func agendamentosHandler(w http.ResponseWriter, r *http.Request){
+	http.ServeFile(w, r, "templates/agendamentos.html")
 }
